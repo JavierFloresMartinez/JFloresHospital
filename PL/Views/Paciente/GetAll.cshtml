@@ -1,0 +1,62 @@
+﻿@Model ML.Paciente
+@{
+    ViewBag.Title = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container" style="margin-left:auto;margin-right:auto;">
+    <div class=row>
+        <div class="text-center">
+            <h2>Pacientes</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h5>Seleccione una Paciente para editar o para agregar</h5>
+            <hr />
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div style="float:right;">
+        @Html.ActionLink("Agregar Paciente", "Form", "Form", htmlAttributes: new { @class = "btn btn-success " })
+    </div>
+</div>
+
+<br />
+
+<div class="row">
+    <table class="table   table-hover table-bordered table-responsive">
+        <thead>
+            <tr>
+                <th>Editar</th>
+                <th style="display:none;">IdPaciente</th>
+                <th>Nombre</th>
+                <th>Fecha De Nacimiento</th>
+                <th>Fecha De Ingreso</th>
+                <th>Tipo De Sangre</th>
+                <th>Sexo</th>
+                <th>Sintoma</th>
+                <th>Eliminar</th>
+            </tr>
+        <thead>
+        <tbody>
+            @foreach (ML.Paciente paciente in Model.Pacientes) 
+            {
+               <tr>
+                   <td style="text-align: center; vertical-align: middle;"><a class="btn btn-warning glyphicon" href="@Url.Action("Form", "Paciente", new { IdPaciente = paciente.IdPaciente  })"><i class="btn btn-warning glyphicon glyphicon-edit"></i></a></td>
+                   <td style="display :none;">@paciente.IdPaciente </td>
+                   <td>@paciente.Nombre @paciente.ApellidoPaterno @paciente.ApellidoMaterno</td>
+                   <td>@paciente.FechaDeNacimiento</td>
+                   <td>@paciente.FechaDeIngreso</td>
+                   <td>@paciente.TipoSangre.Nombre</td>
+                   <td>@paciente.Sexo</td>
+                   <td>@paciente.Sintomas</td>
+                   <td style="text-align: center; vertical-align: middle;"><a class="btn btn-danger glyphicon glyphicon-trash" href="@Url.Action("Delete", "Paciente", new { IdPaciente= paciente.IdPaciente})" onclick="return confirm('Estas seguro que deseas eliminar este registro?');"><i class="bi bi-eraser-fill" style="color: mintcream"></i></a></td>
+               </tr>
+            }
+        </tbody>
+    </table>
+</div>
