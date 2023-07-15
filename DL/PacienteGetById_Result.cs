@@ -23,5 +23,6 @@ namespace DL
         public string TipoDeSangre { get; set; }
         public string Sexo { get; set; }
         public string Sintomas { get; set; }
+        public string Foto { get; set; }
     }
 }

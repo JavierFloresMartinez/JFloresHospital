@@ -13,7 +13,7 @@ namespace BL
             ML.Result result = new ML.Result();
             try
             {
-                using (DL.JFloresHospitalEntities context = new DL.JFloresHospitalEntities())
+                using (DL.JFloresHospitalEntities1 context = new DL.JFloresHospitalEntities1())
                 {
                     var filasAfectadas = context.TipoSangreGetall().ToList();
 

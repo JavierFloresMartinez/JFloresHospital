@@ -16,6 +16,7 @@ namespace ML
         public string FechaDeIngreso { get; set; }
         public string Sexo { get; set; }
         public string Sintomas { get; set; }
+        public string Foto { get; set; }
         public TipoSangre TipoSangre { get; set; }
         public List<Object> Pacientes { get; set; }
     }

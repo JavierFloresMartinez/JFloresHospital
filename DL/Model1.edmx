@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="JFloresHospitalModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="JFloresHospitalModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Paciente">
           <Key>
             <PropertyRef Name="IdPaciente" />
@@ -18,6 +18,7 @@
           <Property Name="IdTipoSangre" Type="int" />
           <Property Name="Sexo" Type="char" MaxLength="2" />
           <Property Name="Sintomas" Type="varchar" MaxLength="100" />
+          <Property Name="Foto" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="TipoSangre">
           <Key>
@@ -46,6 +47,7 @@
           <Parameter Name="IdTipoSangre" Type="int" Mode="In" />
           <Parameter Name="Sexo" Type="char" Mode="In" />
           <Parameter Name="Sintomas" Type="varchar" Mode="In" />
+          <Parameter Name="Foto" Type="varchar(max)" Mode="In" />
         </Function>
         <Function Name="PacienteDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdPaciente" Type="int" Mode="In" />
@@ -63,6 +65,7 @@
           <Parameter Name="IdTipoSangre" Type="int" Mode="In" />
           <Parameter Name="Sexo" Type="char" Mode="In" />
           <Parameter Name="Sintomas" Type="varchar" Mode="In" />
+          <Parameter Name="Foto" Type="varchar(max)" Mode="In" />
         </Function>
         <Function Name="TipoSangreGetall" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="JFloresHospitalModelStoreContainer">
@@ -73,7 +76,8 @@
             <End Role="Paciente" EntitySet="Paciente" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="JFloresHospitalModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -90,6 +94,7 @@
           <Property Name="IdTipoSangre" Type="Int32" />
           <Property Name="Sexo" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
           <Property Name="Sintomas" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Foto" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="TipoSangre" Relationship="Self.FK__Paciente__IdTipo__1273C1CD" FromRole="Paciente" ToRole="TipoSangre" />
         </EntityType>
         <EntityType Name="TipoSangre">
@@ -112,15 +117,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="JFloresHospitalEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="JFloresHospitalEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Paciente" EntityType="Self.Paciente" />
           <EntitySet Name="TipoSangre" EntityType="Self.TipoSangre" />
           <AssociationSet Name="FK__Paciente__IdTipo__1273C1CD" Association="Self.FK__Paciente__IdTipo__1273C1CD">
             <End Role="TipoSangre" EntitySet="TipoSangre" />
             <End Role="Paciente" EntitySet="Paciente" />
           </AssociationSet>
-          <FunctionImport Name="PacienteGetAll" ReturnType="Collection(JFloresHospitalModel.PacienteGetAll_Result)" />
-          <FunctionImport Name="TipoSangreGetall" ReturnType="Collection(JFloresHospitalModel.TipoSangreGetall_Result)" />
           <FunctionImport Name="PacienteAdd">
             <Parameter Name="Nombre" Mode="In" Type="String" />
             <Parameter Name="ApellidoPaterno" Mode="In" Type="String" />
@@ -129,10 +132,12 @@
             <Parameter Name="IdTipoSangre" Mode="In" Type="Int32" />
             <Parameter Name="Sexo" Mode="In" Type="String" />
             <Parameter Name="Sintomas" Mode="In" Type="String" />
+            <Parameter Name="Foto" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="PacienteDelete">
             <Parameter Name="IdPaciente" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="PacienteGetAll" ReturnType="Collection(JFloresHospitalModel.PacienteGetAll_Result)" />
           <FunctionImport Name="PacienteGetById" ReturnType="Collection(JFloresHospitalModel.PacienteGetById_Result)">
             <Parameter Name="IdPaciente" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -145,7 +150,9 @@
             <Parameter Name="IdTipoSangre" Mode="In" Type="Int32" />
             <Parameter Name="Sexo" Mode="In" Type="String" />
             <Parameter Name="Sintomas" Mode="In" Type="String" />
+            <Parameter Name="Foto" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="TipoSangreGetall" ReturnType="Collection(JFloresHospitalModel.TipoSangreGetall_Result)" />
         </EntityContainer>
         <ComplexType Name="PacienteGetAll_Result">
           <Property Type="Int32" Name="IdPaciente" Nullable="false" />
@@ -158,10 +165,7 @@
           <Property Type="String" Name="TipoDeSangre" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Sexo" Nullable="true" MaxLength="2" />
           <Property Type="String" Name="Sintomas" Nullable="true" MaxLength="100" />
-        </ComplexType>
-        <ComplexType Name="TipoSangreGetall_Result">
-          <Property Type="Int32" Name="IdTipoSangre" Nullable="false" />
-          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Foto" Nullable="true" />
         </ComplexType>
         <ComplexType Name="PacienteGetById_Result">
           <Property Type="Int32" Name="IdPaciente" Nullable="false" />
@@ -174,13 +178,18 @@
           <Property Type="String" Name="TipoDeSangre" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Sexo" Nullable="true" MaxLength="2" />
           <Property Type="String" Name="Sintomas" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Foto" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="TipoSangreGetall_Result">
+          <Property Type="Int32" Name="IdTipoSangre" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="JFloresHospitalModelStoreContainer" CdmEntityContainer="JFloresHospitalEntities">
+        <EntityContainerMapping StorageEntityContainer="JFloresHospitalModelStoreContainer" CdmEntityContainer="JFloresHospitalEntities1">
           <EntitySetMapping Name="Paciente">
             <EntityTypeMapping TypeName="JFloresHospitalModel.Paciente">
               <MappingFragment StoreEntitySet="Paciente">
@@ -193,6 +202,7 @@
                 <ScalarProperty Name="IdTipoSangre" ColumnName="IdTipoSangre" />
                 <ScalarProperty Name="Sexo" ColumnName="Sexo" />
                 <ScalarProperty Name="Sintomas" ColumnName="Sintomas" />
+                <ScalarProperty Name="Foto" ColumnName="Foto" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -204,6 +214,8 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="PacienteAdd" FunctionName="JFloresHospitalModel.Store.PacienteAdd" />
+          <FunctionImportMapping FunctionImportName="PacienteDelete" FunctionName="JFloresHospitalModel.Store.PacienteDelete" />
           <FunctionImportMapping FunctionImportName="PacienteGetAll" FunctionName="JFloresHospitalModel.Store.PacienteGetAll">
             <ResultMapping>
               <ComplexTypeMapping TypeName="JFloresHospitalModel.PacienteGetAll_Result">
@@ -217,19 +229,10 @@
                 <ScalarProperty Name="TipoDeSangre" ColumnName="TipoDeSangre" />
                 <ScalarProperty Name="Sexo" ColumnName="Sexo" />
                 <ScalarProperty Name="Sintomas" ColumnName="Sintomas" />
+                <ScalarProperty Name="Foto" ColumnName="Foto" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="TipoSangreGetall" FunctionName="JFloresHospitalModel.Store.TipoSangreGetall">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="JFloresHospitalModel.TipoSangreGetall_Result">
-                <ScalarProperty Name="IdTipoSangre" ColumnName="IdTipoSangre" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="PacienteAdd" FunctionName="JFloresHospitalModel.Store.PacienteAdd" />
-          <FunctionImportMapping FunctionImportName="PacienteDelete" FunctionName="JFloresHospitalModel.Store.PacienteDelete" />
           <FunctionImportMapping FunctionImportName="PacienteGetById" FunctionName="JFloresHospitalModel.Store.PacienteGetById">
             <ResultMapping>
               <ComplexTypeMapping TypeName="JFloresHospitalModel.PacienteGetById_Result">
@@ -243,10 +246,19 @@
                 <ScalarProperty Name="TipoDeSangre" ColumnName="TipoDeSangre" />
                 <ScalarProperty Name="Sexo" ColumnName="Sexo" />
                 <ScalarProperty Name="Sintomas" ColumnName="Sintomas" />
+                <ScalarProperty Name="Foto" ColumnName="Foto" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="PacienteUpdate" FunctionName="JFloresHospitalModel.Store.PacienteUpdate" />
+          <FunctionImportMapping FunctionImportName="TipoSangreGetall" FunctionName="JFloresHospitalModel.Store.TipoSangreGetall">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="JFloresHospitalModel.TipoSangreGetall_Result">
+                <ScalarProperty Name="IdTipoSangre" ColumnName="IdTipoSangre" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -28,7 +28,7 @@
 <br />
 
 <div class="row">
-    <table class="table   table-hover table-bordered table-responsive">
+    <table class="table   table-hover table-bordered table-responsive" >
         <thead>
             <tr>
                 <th>Editar</th>
@@ -46,7 +46,7 @@
             @foreach (ML.Paciente paciente in Model.Pacientes) 
             {
                <tr>
-                   <td style="text-align: center; vertical-align: middle;"><a class="btn btn-warning glyphicon" href="@Url.Action("Form", "Paciente", new { IdPaciente = paciente.IdPaciente  })"><i class="btn btn-warning glyphicon glyphicon-edit"></i></a></td>
+                   <td style="text-align: center; vertical-align: middle;"><a class="btn btn-warning glyphicon glyphicon-edit" href="@Url.Action("Form", "Paciente", new { IdPaciente = paciente.IdPaciente  })"></a></td>
                    <td style="display :none;">@paciente.IdPaciente </td>
                    <td>@paciente.Nombre @paciente.ApellidoPaterno @paciente.ApellidoMaterno</td>
                    <td>@paciente.FechaDeNacimiento</td>

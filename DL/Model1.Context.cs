@@ -15,10 +15,10 @@ namespace DL
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     
-    public partial class JFloresHospitalEntities : DbContext
+    public partial class JFloresHospitalEntities1 : DbContext
     {
-        public JFloresHospitalEntities()
-            : base("name=JFloresHospitalEntities")
+        public JFloresHospitalEntities1()
+            : base("name=JFloresHospitalEntities1")
         {
         }
     
@@ -30,17 +30,7 @@ namespace DL
         public virtual DbSet<Paciente> Paciente { get; set; }
         public virtual DbSet<TipoSangre> TipoSangre { get; set; }
     
-        public virtual ObjectResult<PacienteGetAll_Result> PacienteGetAll()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PacienteGetAll_Result>("PacienteGetAll");
-        }
-    
-        public virtual ObjectResult<TipoSangreGetall_Result> TipoSangreGetall()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<TipoSangreGetall_Result>("TipoSangreGetall");
-        }
-    
-        public virtual int PacienteAdd(string nombre, string apellidoPaterno, string apellidoMaterno, string fechaDeNacimiento, Nullable<int> idTipoSangre, string sexo, string sintomas)
+        public virtual int PacienteAdd(string nombre, string apellidoPaterno, string apellidoMaterno, string fechaDeNacimiento, Nullable<int> idTipoSangre, string sexo, string sintomas, string foto)
         {
             var nombreParameter = nombre != null ?
                 new ObjectParameter("Nombre", nombre) :
@@ -70,7 +60,11 @@ namespace DL
                 new ObjectParameter("Sintomas", sintomas) :
                 new ObjectParameter("Sintomas", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PacienteAdd", nombreParameter, apellidoPaternoParameter, apellidoMaternoParameter, fechaDeNacimientoParameter, idTipoSangreParameter, sexoParameter, sintomasParameter);
+            var fotoParameter = foto != null ?
+                new ObjectParameter("Foto", foto) :
+                new ObjectParameter("Foto", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PacienteAdd", nombreParameter, apellidoPaternoParameter, apellidoMaternoParameter, fechaDeNacimientoParameter, idTipoSangreParameter, sexoParameter, sintomasParameter, fotoParameter);
         }
     
         public virtual int PacienteDelete(Nullable<int> idPaciente)
@@ -82,6 +76,11 @@ namespace DL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PacienteDelete", idPacienteParameter);
         }
     
+        public virtual ObjectResult<PacienteGetAll_Result> PacienteGetAll()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PacienteGetAll_Result>("PacienteGetAll");
+        }
+    
         public virtual ObjectResult<PacienteGetById_Result> PacienteGetById(Nullable<int> idPaciente)
         {
             var idPacienteParameter = idPaciente.HasValue ?
@@ -91,7 +90,7 @@ namespace DL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PacienteGetById_Result>("PacienteGetById", idPacienteParameter);
         }
     
-        public virtual int PacienteUpdate(Nullable<int> idPaciente, string nombre, string apellidoPaterno, string apellidoMaterno, string fechaDeNacimiento, Nullable<int> idTipoSangre, string sexo, string sintomas)
+        public virtual int PacienteUpdate(Nullable<int> idPaciente, string nombre, string apellidoPaterno, string apellidoMaterno, string fechaDeNacimiento, Nullable<int> idTipoSangre, string sexo, string sintomas, string foto)
         {
             var idPacienteParameter = idPaciente.HasValue ?
                 new ObjectParameter("IdPaciente", idPaciente) :
@@ -125,7 +124,16 @@ namespace DL
                 new ObjectParameter("Sintomas", sintomas) :
                 new ObjectParameter("Sintomas", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PacienteUpdate", idPacienteParameter, nombreParameter, apellidoPaternoParameter, apellidoMaternoParameter, fechaDeNacimientoParameter, idTipoSangreParameter, sexoParameter, sintomasParameter);
+            var fotoParameter = foto != null ?
+                new ObjectParameter("Foto", foto) :
+                new ObjectParameter("Foto", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PacienteUpdate", idPacienteParameter, nombreParameter, apellidoPaternoParameter, apellidoMaternoParameter, fechaDeNacimientoParameter, idTipoSangreParameter, sexoParameter, sintomasParameter, fotoParameter);
+        }
+    
+        public virtual ObjectResult<TipoSangreGetall_Result> TipoSangreGetall()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<TipoSangreGetall_Result>("TipoSangreGetall");
         }
     }
 }

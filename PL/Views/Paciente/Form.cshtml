@@ -1,0 +1,108 @@
+﻿@model ML.Paciente
+@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Formulario</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        @using (Html.BeginForm("Form", "Paciente", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+
+            <div class="row">
+                <div class="col-md-3" style="display:none">
+                    @Html.LabelFor(model => model.IdPaciente)
+                    @Html.TextBoxFor(model => model.IdPaciente, new { @class = "form-control" })
+                </div>
+                <div class="col-md-3">
+                    @Html.LabelFor(model => model.Nombre)
+                    @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control" })
+                </div>
+                <div class="col-md-3">
+                    @Html.LabelFor(model => model.ApellidoPaterno)
+                    @Html.TextBoxFor(model => model.ApellidoPaterno, new { @class = "form-control" })
+                </div>
+                <div class="col-md-3">
+                    @Html.LabelFor(model => model.ApellidoMaterno)
+                    @Html.TextBoxFor(model => model.ApellidoMaterno, new { @class = "form-control" })
+                </div>
+                <div class="col-md-3">
+                    @Html.LabelFor(model => model.FechaDeNacimiento)
+                    @Html.TextBoxFor(model => model.FechaDeNacimiento, new { @class = "form-control", @id = "txtFechaNacimiento", @placeholder = "DD-MM-YYYY" })
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-3">
+                    @Html.LabelFor(model => model.Sexo)
+                    @Html.TextBoxFor(model => model.Sexo, new { @class = "form-control" })
+                </div>
+                <div class="col-md-3">
+                    @Html.LabelFor(model => model.Sintomas)
+                    @Html.TextBoxFor(model => model.Sintomas, new { @class = "form-control" })
+                </div>
+                <div class="col-md-3">
+                    @Html.LabelFor(model => model.TipoSangre)
+                    @Html.DropDownListFor(Model => Model.TipoSangre.IdTipoSangre, new SelectList(Model.TipoSangre.TiposDeSangre, "IdTipoSangre", "Nombre"), "Selecciona una opcion", new { @class = "form-control" })
+                </div>
+
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.Foto)
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user-plus"></i></span>
+                        <input id="inpImagen" type='file' class="form-control" name="inpImagen" onchange="validateFile(this), visualizarImagen(this);  " />
+                    </div>
+                    @if (Model.Foto == null)
+                    {
+                        <img id="Img" src="/Images/guest-user.png" style="width:250px ; height:250px" />
+                    }
+                    else
+                    {
+                        <img id="Img" src="data:image/*;base64,@Model.Foto" style="width:250px ; height:250px" />
+                    }
+                </div>
+
+            </div>
+            <br />
+            <br />
+            <br />
+            <div class="col">
+                <input type="submit" value="Guardar" class="btn btn-success" />
+                @Html.ActionLink("Regresar", "GetAll", "Paciente", htmlAttributes: new { @class = "btn btn-danger" })
+            </div>
+        }
+    </div>
+</div>
+
+
+@section Scripts {
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+
+
+
+
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#txtFechaNacimiento").datepicker({
+                dateFormat: 'dd-mm-yy',
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "1920:2005"
+            });
+        });
+    </script>
+}
